@@ -39,6 +39,8 @@ const WIZARD_EYESCOLORS = [
   `green`
 ];
 
+const WIZARDS = [];
+const WIZARDS_COUNT = 4;
 const userDialog = document.querySelector(`.setup`);
 const similarListElement = userDialog.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
@@ -47,28 +49,14 @@ const getRandomIndex = function (arr) {
   return Math.floor(Math.random() * arr.length);
 };
 
-const wizards = [
-  {
-    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
-    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
-    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
-  },
-  {
-    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
-    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
-    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
-  },
-  {
-    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
-    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
-    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
-  },
-  {
-    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
-    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
-    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
+const getWizards = function (count) {
+  for (let i = 0; i < count; i++) {
+    WIZARDS[i] = {};
+    WIZARDS[i].name = `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`;
+    WIZARDS[i].coatColor = `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`;
+    WIZARDS[i].eyesColor = `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`;
   }
-];
+};
 
 const renderWizard = function (wizard) {
   let wizardElement = similarWizardTemplate.cloneNode(true);
@@ -80,10 +68,12 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
+getWizards(WIZARDS_COUNT);
+
 let fragment = document.createDocumentFragment();
 
-for (let i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
+for (let i = 0; i < WIZARDS.length; i++) {
+  fragment.appendChild(renderWizard(WIZARDS[i]));
 }
 
 similarListElement.appendChild(fragment);
