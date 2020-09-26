@@ -46,16 +46,15 @@ const similarListElement = userDialog.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
 
 const getRandomIndex = function (arr) {
-  return Math.floor(Math.random() * arr.length);
+  return arr[Math.floor(Math.random() * arr.length)];
 };
 
 const getWizards = function (count) {
   for (let i = 0; i < count; i++) {
     WIZARDS[i] = {};
-    let nameIndex = getRandomIndex(WIZARD_NAMES);
-    WIZARDS[i].name = `${WIZARD_NAMES[nameIndex]} ${WIZARD_SURNAMES[nameIndex]}`;
-    WIZARDS[i].coatColor = `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`;
-    WIZARDS[i].eyesColor = `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`;
+    WIZARDS[i].name = `${getRandomIndex(WIZARD_NAMES)} ${getRandomIndex(WIZARD_SURNAMES)}`;
+    WIZARDS[i].coatColor = `${getRandomIndex(WIZARD_COATCOLORS)}`;
+    WIZARDS[i].eyesColor = `${getRandomIndex(WIZARD_EYESCOLORS)}`;
   }
 };
 
