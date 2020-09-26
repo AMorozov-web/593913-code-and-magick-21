@@ -22,7 +22,7 @@ const WIZARD_SURNAMES = [
   `Ирвинг`
 ];
 
-const WIZARD_COATCOLORS = [
+const WIZARD_COAT_COLORS = [
   `rgb(101, 137, 164)`,
   `rgb(241, 43, 107)`,
   `rgb(146, 100, 161)`,
@@ -31,7 +31,7 @@ const WIZARD_COATCOLORS = [
   `rgb(0, 0, 0)`
 ];
 
-const WIZARD_EYESCOLORS = [
+const WIZARD_EYES_COLORS = [
   `black`,
   `red`,
   `blue`,
@@ -39,27 +39,32 @@ const WIZARD_EYESCOLORS = [
   `green`
 ];
 
-const WIZARDS = [];
 const WIZARDS_COUNT = 4;
 const userDialog = document.querySelector(`.setup`);
 const similarListElement = userDialog.querySelector(`.setup-similar-list`);
-const similarWizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
+const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
+  .content.querySelector(`.setup-similar-item`);
 
 const getRandomIndex = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
 const getWizards = function (count) {
+  const randomWizards = [];
+
   for (let i = 0; i < count; i++) {
-    WIZARDS[i] = {};
-    WIZARDS[i].name = `${getRandomIndex(WIZARD_NAMES)} ${getRandomIndex(WIZARD_SURNAMES)}`;
-    WIZARDS[i].coatColor = `${getRandomIndex(WIZARD_COATCOLORS)}`;
-    WIZARDS[i].eyesColor = `${getRandomIndex(WIZARD_EYESCOLORS)}`;
+    randomWizards.push({
+      name: `${getRandomIndex(WIZARD_NAMES)} ${getRandomIndex(WIZARD_SURNAMES)}`,
+      coatColor: `${getRandomIndex(WIZARD_COAT_COLORS)}`,
+      eyesColor: `${getRandomIndex(WIZARD_EYES_COLORS)}`
+    });
   }
+
+  return randomWizards;
 };
 
 const renderWizard = function (wizard) {
-  let wizardElement = similarWizardTemplate.cloneNode(true);
+  const wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
   wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
@@ -68,12 +73,11 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
-getWizards(WIZARDS_COUNT);
+const wizards = getWizards(WIZARDS_COUNT);
+const fragment = document.createDocumentFragment();
 
-let fragment = document.createDocumentFragment();
-
-for (let i = 0; i < WIZARDS.length; i++) {
-  fragment.appendChild(renderWizard(WIZARDS[i]));
+for (let i = 0; i < wizards.length; i++) {
+  fragment.appendChild(renderWizard(wizards[i]));
 }
 
 similarListElement.appendChild(fragment);
