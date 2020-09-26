@@ -52,7 +52,8 @@ const getRandomIndex = function (arr) {
 const getWizards = function (count) {
   for (let i = 0; i < count; i++) {
     WIZARDS[i] = {};
-    WIZARDS[i].name = `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`;
+    let nameIndex = getRandomIndex(WIZARD_NAMES);
+    WIZARDS[i].name = `${WIZARD_NAMES[nameIndex]} ${WIZARD_SURNAMES[nameIndex]}`;
     WIZARDS[i].coatColor = `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`;
     WIZARDS[i].eyesColor = `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`;
   }
