@@ -49,28 +49,28 @@ const getRandomIndex = function (arr) {
 
 const wizards = [
   {
-    name: WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)] + ` ` + WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)],
-    coatColor: WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)],
-    eyesColor: WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]
+    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
+    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
+    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
   },
   {
-    name: WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)] + ` ` + WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)],
-    coatColor: WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)],
-    eyesColor: WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]
+    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
+    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
+    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
   },
   {
-    name: WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)] + ` ` + WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)],
-    coatColor: WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)],
-    eyesColor: WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]
+    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
+    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
+    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
   },
   {
-    name: WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)] + ` ` + WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)],
-    coatColor: WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)],
-    eyesColor: WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]
+    name: `${WIZARD_NAMES[getRandomIndex(WIZARD_NAMES)]} ${WIZARD_SURNAMES[getRandomIndex(WIZARD_SURNAMES)]}`,
+    coatColor: `${WIZARD_COATCOLORS[getRandomIndex(WIZARD_COATCOLORS)]}`,
+    eyesColor: `${WIZARD_EYESCOLORS[getRandomIndex(WIZARD_EYESCOLORS)]}`
   }
 ];
 
-let renderWizard = function (wizard) {
+const renderWizard = function (wizard) {
   let wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
