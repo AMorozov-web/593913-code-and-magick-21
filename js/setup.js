@@ -73,6 +73,28 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
+const openPopup = function () {
+  userDialog.classList.remove(`hidden`);
+
+  document.addEventListener(`keydown`, function (evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      userDialog.classList.add(`hidden`);
+    }
+  });
+};
+
+const closePopup = function () {
+  userDialog.classList.add(`hidden`);
+
+  document.removeEventListener(`keydown`, function (evt) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      userDialog.classList.add(`hidden`);
+    }
+  });
+};
+
 const wizards = getWizards(WIZARDS_COUNT);
 const fragment = document.createDocumentFragment();
 
@@ -82,5 +104,23 @@ for (let i = 0; i < wizards.length; i++) {
 
 similarListElement.appendChild(fragment);
 
-userDialog.classList.remove(`hidden`);
+const setupOpen = document.querySelector(`.setup-open`);
+const setupClose = userDialog.querySelector(`.setup-close`);
+
+setupOpen.addEventListener(`click`, function () {
+  openPopup();
+});
+
+setupOpen.addEventListener(`keydown`, function () {
+  openPopup();
+});
+
+setupClose.addEventListener(`click`, function () {
+  closePopup();
+});
+
+setupClose.addEventListener(`keydown`, function () {
+  closePopup();
+});
+
 userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
