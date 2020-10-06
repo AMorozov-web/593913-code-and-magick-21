@@ -85,16 +85,19 @@ const setupFireball = document.querySelector(`.setup-fireball-wrap`);
 const setupWizard = document.querySelector(`.setup-wizard-wrap`);
 
 const changeFireballColor = function () {
-  const fireballColor = getRandomIndex(FIREBALL_COLORS);
-  setupFireball.style.backgroundColor = fireballColor;
+  setupFireball.style.backgroundColor = getRandomIndex(FIREBALL_COLORS);
 };
 
-// const changeWizardsColor = function (evt) {
-//   let clickTarget = evt.target;
-//   switch (clickTarget) {
-//     case (clickTarget.id === `wizard-coat`): console.log(1111);
-//   }
-// };
+const changeWizardsLook = function (evt) {
+  const clickTarget = evt.target.className.baseVal;
+  switch (clickTarget) {
+    case `wizard-coat`: evt.target.style.fill = getRandomIndex(WIZARD_COAT_COLORS);
+      break;
+    case `wizard-eyes`: evt.target.style.fill = getRandomIndex(WIZARD_EYES_COLORS);
+      break;
+    default: break;
+  }
+};
 
 const onPopupEscPress = function (evt) {
   if (evt.key === `Escape`) {
