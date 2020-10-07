@@ -53,7 +53,7 @@ const similarListElement = userSetup.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
   .content.querySelector(`.setup-similar-item`);
 
-const getRandomIndex = function (arr) {
+const getRandomElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
@@ -62,9 +62,9 @@ const getWizards = function (count) {
 
   for (let i = 0; i < count; i++) {
     randomWizards.push({
-      name: `${getRandomIndex(WIZARD_NAMES)} ${getRandomIndex(WIZARD_SURNAMES)}`,
-      coatColor: `${getRandomIndex(WIZARD_COAT_COLORS)}`,
-      eyesColor: `${getRandomIndex(WIZARD_EYES_COLORS)}`
+      name: `${getRandomElement(WIZARD_NAMES)} ${getRandomElement(WIZARD_SURNAMES)}`,
+      coatColor: `${getRandomElement(WIZARD_COAT_COLORS)}`,
+      eyesColor: `${getRandomElement(WIZARD_EYES_COLORS)}`
     });
   }
 
@@ -81,19 +81,32 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
-const setupFireball = document.querySelector(`.setup-fireball-wrap`);
-const setupWizard = document.querySelector(`.setup-wizard-wrap`);
+const setupWizardForm = document.querySelector(`.setup-wizard-form`);
+const setupFireball = setupWizardForm.querySelector(`.setup-fireball-wrap`);
+const setupWizard = setupWizardForm.querySelector(`.setup-wizard-wrap`);
+const userNameInput = setupWizardForm.querySelector(`input[name="username"]`);
+const fireballColorInput = setupWizardForm.querySelector(`input[name="fireball-color"]`);
+const coatColorInput = setupWizardForm.querySelector(`input[name="coat-color"]`);
+const eyesColorInput = setupWizardForm.querySelector(`input[name="eyes-color"]`);
 
 const changeFireballColor = function () {
-  setupFireball.style.backgroundColor = getRandomIndex(FIREBALL_COLORS);
+  const fireballColor = getRandomElement(FIREBALL_COLORS);
+  setupFireball.style.backgroundColor = fireballColor;
+  fireballColorInput.value = fireballColor;
 };
 
-const changeWizardsLook = function (evt) {
+const changeWizardLook = function (evt) {
   const clickTarget = evt.target.className.baseVal;
   switch (clickTarget) {
-    case `wizard-coat`: evt.target.style.fill = getRandomIndex(WIZARD_COAT_COLORS);
+    case `wizard-coat`:
+      const coatColor = getRandomElement(WIZARD_COAT_COLORS);
+      evt.target.style.fill = coatColor;
+      coatColorInput.value = coatColor;
       break;
-    case `wizard-eyes`: evt.target.style.fill = getRandomIndex(WIZARD_EYES_COLORS);
+    case `wizard-eyes`:
+      const eyesColor = getRandomElement(WIZARD_EYES_COLORS);
+      evt.target.style.fill = eyesColor;
+      eyesColorInput.value = eyesColor;
       break;
     default: break;
   }
@@ -110,12 +123,35 @@ const openPopup = function () {
   userSetup.classList.remove(`hidden`);
 
   document.addEventListener(`keydown`, onPopupEscPress);
+  setupFireball.addEventListener(`click`, changeFireballColor);
+  setupWizard.addEventListener(`click`, changeWizardLook);
+  userNameInput.addEventListener(`input`, validateUserName);
 };
 
 const closePopup = function () {
   userSetup.classList.add(`hidden`);
 
   document.removeEventListener(`keydown`, onPopupEscPress);
+  setupFireball.removeEventListener(`click`, changeFireballColor);
+  setupWizard.removeEventListener(`click`, changeWizardLook);
+  userNameInput.removeEventListener(`input`, validateUserName);
+};
+
+const MIN_NAME_LENGTH = 2;
+const MAX_NAME_LENGTH = 25;
+
+const validateUserName = function () {
+  const valueLength = userNameInput.value.length;
+
+  if (valueLength < MIN_NAME_LENGTH) {
+    userNameInput.setCustomValidity(`Ещё ${MIN_NAME_LENGTH - valueLength} симв.`);
+  } else if (valueLength > MAX_NAME_LENGTH) {
+    userNameInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_NAME_LENGTH} симв.`);
+  } else {
+    userNameInput.setCustomValidity(``);
+  }
+
+  userNameInput.reportValidity();
 };
 
 const wizards = getWizards(WIZARDS_COUNT);
