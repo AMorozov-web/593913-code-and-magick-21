@@ -48,16 +48,27 @@ const FIREBALL_COLORS = [
 ];
 
 const WIZARDS_COUNT = 4;
+const MIN_NAME_LENGTH = 2;
+const MAX_NAME_LENGTH = 25;
+const setupWizardForm = document.querySelector(`.setup-wizard-form`);
+const setupFireball = setupWizardForm.querySelector(`.setup-fireball-wrap`);
+const wizardFireball = setupWizardForm.querySelector(`.setup-fireball`);
+const wizardCoat = setupWizardForm.querySelector(`.wizard-coat`);
+const wizardEyes = setupWizardForm.querySelector(`.wizard-eyes`);
+const userNameInput = setupWizardForm.querySelector(`input[name="username"]`);
+const fireballColorInput = setupWizardForm.querySelector(`input[name="fireball-color"]`);
+const coatColorInput = setupWizardForm.querySelector(`input[name="coat-color"]`);
+const eyesColorInput = setupWizardForm.querySelector(`input[name="eyes-color"]`);
 const userSetup = document.querySelector(`.setup`);
 const similarListElement = userSetup.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
   .content.querySelector(`.setup-similar-item`);
 
-const getRandomElement = function (arr) {
+const getRandomElement = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-const getWizards = function (count) {
+const getWizards = (count) => {
   const randomWizards = [];
 
   for (let i = 0; i < count; i++) {
@@ -71,7 +82,7 @@ const getWizards = function (count) {
   return randomWizards;
 };
 
-const renderWizard = function (wizard) {
+const renderWizard = (wizard) => {
   const wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
@@ -81,32 +92,22 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
-const setupWizardForm = document.querySelector(`.setup-wizard-form`);
-const setupFireball = setupWizardForm.querySelector(`.setup-fireball-wrap`);
-const setupWizard = setupWizardForm.querySelector(`.setup-wizard-wrap`);
-const userNameInput = setupWizardForm.querySelector(`input[name="username"]`);
-const fireballColorInput = setupWizardForm.querySelector(`input[name="fireball-color"]`);
-const coatColorInput = setupWizardForm.querySelector(`input[name="coat-color"]`);
-const eyesColorInput = setupWizardForm.querySelector(`input[name="eyes-color"]`);
-
-const changeFireballColor = function () {
-  const fireballColor = getRandomElement(FIREBALL_COLORS);
-  setupFireball.style.backgroundColor = fireballColor;
-  fireballColorInput.value = fireballColor;
-};
-
-const changeWizardLook = function (evt) {
-  const clickTarget = evt.target.className.baseVal;
-  switch (clickTarget) {
-    case `wizard-coat`:
+const onWizardChangeColors = function (evt) {
+  switch (evt.target) {
+    case wizardCoat:
       const coatColor = getRandomElement(WIZARD_COAT_COLORS);
       evt.target.style.fill = coatColor;
       coatColorInput.value = coatColor;
       break;
-    case `wizard-eyes`:
+    case wizardEyes:
       const eyesColor = getRandomElement(WIZARD_EYES_COLORS);
       evt.target.style.fill = eyesColor;
       eyesColorInput.value = eyesColor;
+      break;
+    case wizardFireball:
+      const fireballColor = getRandomElement(FIREBALL_COLORS);
+      setupFireball.style.backgroundColor = fireballColor;
+      fireballColorInput.value = fireballColor;
       break;
     default: break;
   }
@@ -123,8 +124,7 @@ const openPopup = function () {
   userSetup.classList.remove(`hidden`);
 
   document.addEventListener(`keydown`, onPopupEscPress);
-  setupFireball.addEventListener(`click`, changeFireballColor);
-  setupWizard.addEventListener(`click`, changeWizardLook);
+  setupWizardForm.addEventListener(`click`, onWizardChangeColors);
   userNameInput.addEventListener(`input`, validateUserName);
 };
 
@@ -132,13 +132,10 @@ const closePopup = function () {
   userSetup.classList.add(`hidden`);
 
   document.removeEventListener(`keydown`, onPopupEscPress);
-  setupFireball.removeEventListener(`click`, changeFireballColor);
-  setupWizard.removeEventListener(`click`, changeWizardLook);
+  setupWizardForm.removeEventListener(`click`, onWizardChangeColors);
   userNameInput.removeEventListener(`input`, validateUserName);
 };
 
-const MIN_NAME_LENGTH = 2;
-const MAX_NAME_LENGTH = 25;
 
 const validateUserName = function () {
   const valueLength = userNameInput.value.length;
