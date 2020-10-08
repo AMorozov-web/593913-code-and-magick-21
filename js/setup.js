@@ -68,6 +68,16 @@ const getRandomElement = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+const getNextArrElement = (arr, elem = arr[0]) => {
+  const elementIndex = arr.indexOf(elem);
+  let nextElementIndex = elementIndex + 1;
+  if (nextElementIndex === arr.length) {
+    nextElementIndex = 0;
+  }
+
+  return arr[nextElementIndex];
+};
+
 const getWizards = (count) => {
   const randomWizards = [];
 
@@ -95,17 +105,26 @@ const renderWizard = (wizard) => {
 const onWizardChangeColors = function (evt) {
   switch (evt.target) {
     case wizardCoat:
-      const coatColor = getRandomElement(WIZARD_COAT_COLORS);
+      let coatColor = getRandomElement(WIZARD_COAT_COLORS);
+      if (coatColor === evt.target.style.fill) {
+        coatColor = getNextArrElement(coatColor, WIZARD_COAT_COLORS);
+      }
       evt.target.style.fill = coatColor;
       coatColorInput.value = coatColor;
       break;
     case wizardEyes:
-      const eyesColor = getRandomElement(WIZARD_EYES_COLORS);
+      let eyesColor = getRandomElement(WIZARD_EYES_COLORS);
+      if (eyesColor === evt.target.style.fill) {
+        eyesColor = getNextArrElement(eyesColor, WIZARD_EYES_COLORS);
+      }
       evt.target.style.fill = eyesColor;
       eyesColorInput.value = eyesColor;
       break;
     case wizardFireball:
-      const fireballColor = getRandomElement(FIREBALL_COLORS);
+      let fireballColor = getRandomElement(FIREBALL_COLORS);
+      if (fireballColor === getComputedStyle(setupFireball).backgroundColor) {
+        fireballColor = getNextArrElement(fireballColor, FIREBALL_COLORS);
+      }
       setupFireball.style.backgroundColor = fireballColor;
       fireballColorInput.value = fireballColor;
       break;
