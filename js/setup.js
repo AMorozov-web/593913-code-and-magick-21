@@ -64,34 +64,34 @@ const similarListElement = userSetup.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
   .content.querySelector(`.setup-similar-item`);
 
-const getArrFromString = (splitString) => {
+const getNumbersFromString = (splitString) => {
   const separator = `, `;
-  const arrFromString = splitString.split(separator);
-  const rgbArr = [];
+  const fragmentsFromString = splitString.split(separator);
+  const numbersArr = [];
 
-  arrFromString.forEach((elem) => {
-    rgbArr.push(parseInt(elem.match(/\d+/), 10));
+  fragmentsFromString.forEach((elem) => {
+    numbersArr.push(parseInt(elem.match(/\d+/), 10));
   });
 
-  return rgbArr;
+  return numbersArr;
 };
 
-const convertNumberToHex = (number) => {
+const convertIntToHex = (number) => {
   const hex = number.toString(16);
 
   return (hex.length === 1) ? `0${hex}` : `${hex}`;
 };
 
 const getHexFromRGB = (rgbColor) => {
+  const rgbColorArr = getNumbersFromString(rgbColor);
   const hexColor = [];
-  rgbColorsArr.forEach((elem) => {
-    hexColor.push(convertNumberToHex(elem));
+
+  rgbColorArr.forEach((elem) => {
+    hexColor.push(convertIntToHex(elem));
   });
 
-  return hexColor;
+  return `#${hexColor.join(``)}`;
 };
-
-console.log(getHexFromRGB(getComputedStyle(setupFireball).backgroundColor));
 
 const getRandomElement = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -131,12 +131,12 @@ const renderWizard = (wizard) => {
   return wizardElement;
 };
 
-const onWizardChangeColors = function (evt) {
+const onWizardChangeColors = (evt) => {
   switch (evt.target) {
     case wizardCoat:
       let coatColor = getRandomElement(WIZARD_COAT_COLORS);
       if (coatColor === evt.target.style.fill) {
-        coatColor = getNextArrElement(coatColor, WIZARD_COAT_COLORS);
+        coatColor = getNextArrElement(WIZARD_COAT_COLORS, coatColor);
       }
       evt.target.style.fill = coatColor;
       coatColorInput.value = coatColor;
@@ -144,15 +144,16 @@ const onWizardChangeColors = function (evt) {
     case wizardEyes:
       let eyesColor = getRandomElement(WIZARD_EYES_COLORS);
       if (eyesColor === evt.target.style.fill) {
-        eyesColor = getNextArrElement(eyesColor, WIZARD_EYES_COLORS);
+        eyesColor = getNextArrElement(WIZARD_EYES_COLORS, eyesColor);
       }
       evt.target.style.fill = eyesColor;
       eyesColorInput.value = eyesColor;
       break;
     case wizardFireball:
+      const currentFireballColor = getComputedStyle(setupFireball).backgroundColor;
       let fireballColor = getRandomElement(FIREBALL_COLORS);
-      if (fireballColor === getComputedStyle(setupFireball).backgroundColor) {
-        fireballColor = getNextArrElement(fireballColor, FIREBALL_COLORS);
+      if (fireballColor === getHexFromRGB(currentFireballColor)) {
+        fireballColor = getNextArrElement(FIREBALL_COLORS, fireballColor);
       }
       setupFireball.style.backgroundColor = fireballColor;
       fireballColorInput.value = fireballColor;
@@ -161,32 +162,15 @@ const onWizardChangeColors = function (evt) {
   }
 };
 
-const onPopupEscPress = function (evt) {
-  if (evt.key === `Escape`) {
+const onPopupEscPress = (evt) => {
+  if (document.activeElement !== userNameInput && evt.key === `Escape`) {
     evt.preventDefault();
     closePopup();
   }
 };
 
-const openPopup = function () {
-  userSetup.classList.remove(`hidden`);
-
-  document.addEventListener(`keydown`, onPopupEscPress);
-  setupWizardForm.addEventListener(`click`, onWizardChangeColors);
-  userNameInput.addEventListener(`input`, validateUserName);
-};
-
-const closePopup = function () {
-  userSetup.classList.add(`hidden`);
-
-  document.removeEventListener(`keydown`, onPopupEscPress);
-  setupWizardForm.removeEventListener(`click`, onWizardChangeColors);
-  userNameInput.removeEventListener(`input`, validateUserName);
-};
-
-
-const validateUserName = function () {
-  const valueLength = userNameInput.value.length;
+const onInputValidateName = (evt) => {
+  const valueLength = evt.target.value.length;
 
   if (valueLength < MIN_NAME_LENGTH) {
     userNameInput.setCustomValidity(`Ещё ${MIN_NAME_LENGTH - valueLength} симв.`);
@@ -199,31 +183,47 @@ const validateUserName = function () {
   userNameInput.reportValidity();
 };
 
+const openPopup = () => {
+  userSetup.classList.remove(`hidden`);
+
+  document.addEventListener(`keydown`, onPopupEscPress);
+  setupWizardForm.addEventListener(`click`, onWizardChangeColors);
+  userNameInput.addEventListener(`input`, onInputValidateName);
+};
+
+const closePopup = () => {
+  userSetup.classList.add(`hidden`);
+
+  document.removeEventListener(`keydown`, onPopupEscPress);
+  setupWizardForm.removeEventListener(`click`, onWizardChangeColors);
+  userNameInput.removeEventListener(`input`, onInputValidateName);
+};
+
 const wizards = getWizards(WIZARDS_COUNT);
 const fragment = document.createDocumentFragment();
 
-for (let i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
-}
+wizards.forEach((elem) => {
+  fragment.appendChild(renderWizard(elem));
+});
 
 similarListElement.appendChild(fragment);
 
 const setupOpen = document.querySelector(`.setup-open`);
 const setupClose = userSetup.querySelector(`.setup-close`);
 
-setupOpen.addEventListener(`click`, function () {
+setupOpen.addEventListener(`click`, () => {
   openPopup();
 });
 
-setupOpen.addEventListener(`keydown`, function () {
+setupOpen.addEventListener(`keydown`, () => {
   openPopup();
 });
 
-setupClose.addEventListener(`click`, function () {
+setupClose.addEventListener(`click`, () => {
   closePopup();
 });
 
-setupClose.addEventListener(`keydown`, function () {
+setupClose.addEventListener(`keydown`, () => {
   closePopup();
 });
 
