@@ -131,7 +131,7 @@ const renderWizard = (wizard) => {
   return wizardElement;
 };
 
-const onWizardChangeColors = (evt) => {
+const onWizardClick = (evt) => {
   switch (evt.target) {
     case wizardCoat:
       let coatColor = getRandomElement(WIZARD_COAT_COLORS);
@@ -169,7 +169,7 @@ const onPopupEscPress = (evt) => {
   }
 };
 
-const onInputValidateName = (evt) => {
+const onInputChange = (evt) => {
   const valueLength = evt.target.value.length;
 
   if (valueLength < MIN_NAME_LENGTH) {
@@ -187,16 +187,16 @@ const openPopup = () => {
   userSetup.classList.remove(`hidden`);
 
   document.addEventListener(`keydown`, onPopupEscPress);
-  setupWizardForm.addEventListener(`click`, onWizardChangeColors);
-  userNameInput.addEventListener(`input`, onInputValidateName);
+  setupWizardForm.addEventListener(`click`, onWizardClick);
+  userNameInput.addEventListener(`change`, onInputChange);
 };
 
 const closePopup = () => {
   userSetup.classList.add(`hidden`);
 
   document.removeEventListener(`keydown`, onPopupEscPress);
-  setupWizardForm.removeEventListener(`click`, onWizardChangeColors);
-  userNameInput.removeEventListener(`input`, onInputValidateName);
+  setupWizardForm.removeEventListener(`click`, onWizardClick);
+  userNameInput.removeEventListener(`change`, onInputChange);
 };
 
 const wizards = getWizards(WIZARDS_COUNT);
