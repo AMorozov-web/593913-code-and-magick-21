@@ -64,6 +64,35 @@ const similarListElement = userSetup.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
   .content.querySelector(`.setup-similar-item`);
 
+const getArrFromString = (splitString) => {
+  const separator = `, `;
+  const arrFromString = splitString.split(separator);
+  const rgbArr = [];
+
+  arrFromString.forEach((elem) => {
+    rgbArr.push(parseInt(elem.match(/\d+/), 10));
+  });
+
+  return rgbArr;
+};
+
+const convertNumberToHex = (number) => {
+  const hex = number.toString(16);
+
+  return (hex.length === 1) ? `0${hex}` : `${hex}`;
+};
+
+const getHexFromRGB = (rgbColor) => {
+  const hexColor = [];
+  rgbColorsArr.forEach((elem) => {
+    hexColor.push(convertNumberToHex(elem));
+  });
+
+  return hexColor;
+};
+
+console.log(getHexFromRGB(getComputedStyle(setupFireball).backgroundColor));
+
 const getRandomElement = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
