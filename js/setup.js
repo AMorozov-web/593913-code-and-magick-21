@@ -8,7 +8,7 @@ const WIZARD_NAMES = [
   `Виктор`,
   `Юлия`,
   `Люпита`,
-  `Вашингтон`
+  `Вашингтон`,
 ];
 
 const WIZARD_SURNAMES = [
@@ -19,7 +19,7 @@ const WIZARD_SURNAMES = [
   `Онопко`,
   `Топольницкая`,
   `Нионго`,
-  `Ирвинг`
+  `Ирвинг`,
 ];
 
 const WIZARD_COAT_COLORS = [
@@ -28,7 +28,7 @@ const WIZARD_COAT_COLORS = [
   `rgb(146, 100, 161)`,
   `rgb(56, 159, 117)`,
   `rgb(215, 210, 55)`,
-  `rgb(0, 0, 0)`
+  `rgb(0, 0, 0)`,
 ];
 
 const WIZARD_EYES_COLORS = [
@@ -36,7 +36,7 @@ const WIZARD_EYES_COLORS = [
   `red`,
   `blue`,
   `yellow`,
-  `green`
+  `green`,
 ];
 
 const FIREBALL_COLORS = [
@@ -44,7 +44,7 @@ const FIREBALL_COLORS = [
   `#30a8ee`,
   `#5ce6c0`,
   `#e848d5`,
-  `#e6e848`
+  `#e6e848`,
 ];
 
 const WIZARDS_COUNT = 4;
@@ -131,7 +131,7 @@ const renderWizard = (wizard) => {
   return wizardElement;
 };
 
-const onWizardClick = (evt) => {
+const onWizardClick = (evt) => { // color
   switch (evt.target) {
     case wizardCoat:
       let coatColor = getRandomElement(WIZARD_COAT_COLORS);
