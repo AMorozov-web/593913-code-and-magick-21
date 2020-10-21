@@ -35,8 +35,8 @@
     for (let i = 0; i < count; i++) {
       randomWizards.push({
         name: `${window.util.randomElementFromArr(WIZARD_NAMES)} ${window.util.randomElementFromArr(WIZARD_SURNAMES)}`,
-        coatColor: `${window.util.randomElementFromArr(window.colors.coatColors)}`,
-        eyesColor: `${window.util.randomElementFromArr(window.colors.eyesColors)}`
+        coatColor: `${window.util.randomElementFromArr(window.colors.WIZARD_COAT_COLORS)}`,
+        eyesColor: `${window.util.randomElementFromArr(window.colors.WIZARD_EYES_COLORS)}`
       });
     }
 
