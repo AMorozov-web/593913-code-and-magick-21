@@ -6,7 +6,7 @@
   const userSetup = document.querySelector(`.setup`);
   const setupOpen = document.querySelector(`.setup-open`);
   const setupClose = userSetup.querySelector(`.setup-close`);
-  const dialogHandle = userSetup.querySelector(`.upload`);
+  const userPic = userSetup.querySelector(`.upload`);
 
   const openPopup = () => {
     userSetup.classList.remove(`hidden`);
@@ -47,7 +47,7 @@
     closePopup();
   });
 
-  dialogHandle.addEventListener(`mousedown`, (evt) => {
+  userPic.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
     let startCoords = {
@@ -77,15 +77,17 @@
 
     const onMouseUp = (upEvt) => {
       upEvt.preventDefault();
+
       document.removeEventListener(`mousemove`, onMouseMove);
       document.removeEventListener(`mouseup`, onMouseUp);
 
       if (dragged) {
         const onClickPreventDefault = (clickEvt) => {
           clickEvt.preventDefault();
-          dialogHandle.removeEventListener(`click`, onClickPreventDefault);
+          userPic.removeEventListener(`click`, onClickPreventDefault);
         };
-        dialogHandle.addEventListener(`click`, onClickPreventDefault);
+
+        userPic.addEventListener(`click`, onClickPreventDefault);
       }
     };
 

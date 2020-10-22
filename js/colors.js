@@ -35,31 +35,38 @@
   const coatColorInput = setupWizardForm.querySelector(`input[name="coat-color"]`);
   const eyesColorInput = setupWizardForm.querySelector(`input[name="eyes-color"]`);
 
+  const getNewColor = (elem, colors) => {
+    let currentColor;
+
+    if (elem.tagName.toLowerCase() === `div`) {
+      currentColor = window.util.hexFromRGB(getComputedStyle(elem).backgroundColor);
+    } else {
+      currentColor = elem.style.fill;
+    }
+
+    let newColor = window.util.randomElementFromArr(colors);
+
+    while (currentColor === newColor) {
+      newColor = window.util.randomElementFromArr(colors);
+    }
+
+    return newColor;
+  };
 
   const colorizeWizard = (evt) => {
     switch (evt.target) {
       case wizardCoat:
-        let coatColor = window.util.randomElementFromArr(WIZARD_COAT_COLORS);
-        if (coatColor === evt.target.style.fill) {
-          coatColor = window.util.nextArrElement(WIZARD_COAT_COLORS, coatColor);
-        }
+        const coatColor = getNewColor(evt.target, WIZARD_COAT_COLORS);
         evt.target.style.fill = coatColor;
         coatColorInput.value = coatColor;
         break;
       case wizardEyes:
-        let eyesColor = window.util.randomElementFromArr(WIZARD_EYES_COLORS);
-        if (eyesColor === evt.target.style.fill) {
-          eyesColor = window.util.nextArrElement(WIZARD_EYES_COLORS, eyesColor);
-        }
+        const eyesColor = getNewColor(evt.target, WIZARD_EYES_COLORS);
         evt.target.style.fill = eyesColor;
         eyesColorInput.value = eyesColor;
         break;
       case wizardFireball:
-        const currentFireballColor = getComputedStyle(setupFireball).backgroundColor;
-        let fireballColor = window.util.randomElementFromArr(FIREBALL_COLORS);
-        if (fireballColor === window.util.hexFromRGB(currentFireballColor)) {
-          fireballColor = window.util.nextArrElement(FIREBALL_COLORS, fireballColor);
-        }
+        let fireballColor = getNewColor(setupFireball, FIREBALL_COLORS);
         setupFireball.style.backgroundColor = fireballColor;
         fireballColorInput.value = fireballColor;
         break;
