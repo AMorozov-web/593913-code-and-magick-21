@@ -39,7 +39,7 @@
     node.style.fontSize = `30px`;
 
     node.textContent = errorMessage;
-    document.body.insertBefore(node, userSetup);
+    document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
   window.backend.load(successHandler, errorHandler);
