@@ -42,21 +42,23 @@
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
+  const submitSuccess = () => {
+    const message = document.createElement(`div`);
+    message.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: #00AE68;`;
+    message.style.position = `absolute`;
+    message.style.left = 0;
+    message.style.right = 0;
+    message.style.fontSize = `30px`;
+    message.textContent = `Данные успешно отправлены`;
+
+    userSetup.classList.add(`hidden`);
+    document.body.insertAdjacentElement(`afterbegin`, message);
+  };
+
   window.backend.load(successHandler, errorHandler);
 
   const submitHandler = (evt) => {
-    window.backend.upload(new FormData(form), () => {
-      const message = document.createElement(`div`);
-      message.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: #00AE68;`;
-      message.style.position = `absolute`;
-      message.style.left = 0;
-      message.style.right = 0;
-      message.style.fontSize = `30px`;
-      message.textContent = `Данные успешно отправлены`;
-
-      userSetup.classList.add(`hidden`);
-      document.body.insertAdjacentElement(`afterbegin`, message);
-    });
+    window.backend.upload(new FormData(form), submitSuccess, errorHandler);
     evt.preventDefault();
   };
 
